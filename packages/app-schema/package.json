@@ -1,0 +1,14 @@
+{
+  "name": "@forgeos/app-schema",
+  "version": "1.0.0",
+  "description": "Typed, versioned schema definitions and runtime validation for ForgeOS applications",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

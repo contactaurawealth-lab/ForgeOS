@@ -1,0 +1,19 @@
+{
+  "name": "@forgeos/api",
+  "version": "1.0.0",
+  "description": "ForgeOS Backend HTTP API, Orchestration Runner, and Health Checks",
+  "type": "module",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "@forgeos/ai-orchestrator": "1.0.0",
+    "@forgeos/app-schema": "1.0.0",
+    "@forgeos/codegen": "1.0.0",
+    "@forgeos/design-system": "1.0.0",
+    "@forgeos/provider-adapters": "1.0.0",
+    "@forgeos/ui-kit": "1.0.0",
+    "@forgeos/ui-runtime": "1.0.0"
+  }
+}

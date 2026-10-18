@@ -1,0 +1,14 @@
+{
+  "name": "@forgeos/rea-adapter",
+  "version": "1.0.0",
+  "description": "Typed adapter interface connecting ForgeOS to Reverse Engineer Anything (REA) via MCP and CLI boundaries",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

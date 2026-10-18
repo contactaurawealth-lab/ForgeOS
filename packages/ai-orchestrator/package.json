@@ -1,0 +1,20 @@
+{
+  "name": "@forgeos/ai-orchestrator",
+  "version": "1.0.0",
+  "description": "Multi-step AI orchestration engine with requirements analysis, planning, tool execution, bounded self-repair, and verified preview generation",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@forgeos/app-schema": "1.0.0",
+    "@forgeos/codegen": "1.0.0",
+    "@forgeos/design-system": "1.0.0",
+    "@forgeos/provider-adapters": "1.0.0",
+    "@forgeos/ui-kit": "1.0.0",
+    "@forgeos/ui-runtime": "1.0.0",
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "@forgeos/design-system",
+  "version": "1.0.0",
+  "description": "Coherent design tokens, light/dark themes, and styling foundations for ForgeOS",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js",
+    "./tokens.css": "./src/tokens.css"
+  }
+}

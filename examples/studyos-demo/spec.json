@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "id": "studyos-demo",
+    "name": "studyos-demo",
+    "title": "StudyOS — Learning & Study Management Platform",
+    "description": "Responsive study dashboard with subject cards, progress indicators, task lists, and study tracking.",
+    "version": "1.0.0",
+    "author": "ForgeOS AI Engineering Team",
+    "tags": ["education", "dashboard", "study", "tasks"],
+    "createdAt": "2026-10-18T12:00:00.000Z",
+    "updatedAt": "2026-10-18T12:00:00.000Z"
+  },
+  "theme": {
+    "mode": "light",
+    "primaryColor": "#2563eb",
+    "accentColor": "#0d9488",
+    "neutralColor": "#0f172a",
+    "borderRadius": "8px",
+    "fontFamily": "system-ui, -apple-system, sans-serif"
+  },
+  "routes": [
+    {
+      "id": "r_dashboard",
+      "path": "/",
+      "title": "Dashboard",
+      "layout": "default",
+      "rootComponent": {
+        "id": "main_container",
+        "type": "Container",
+        "props": { "maxWidth": "1200px", "padding": "24px" },
+        "children": [
+          {
+            "id": "hdr_title",
+            "type": "Heading",
+            "props": {
+              "level": 1,
+              "text": "StudyOS Dashboard",
+              "subtitle": "Track your study subjects, assignments, progress, and daily learning goals."
+            },
+            "children": []
+          },
+          {
+            "id": "stats_grid",
+            "type": "Grid",
+            "props": { "columns": 3, "gap": "16px" },
+            "children": [
+              {
+                "id": "stat_subjects",
+                "type": "StatCard",
+                "props": { "label": "Active Subjects", "value": "4", "change": "+1 this month", "changeType": "positive" },
+                "children": []
+              },
+              {
+                "id": "stat_hours",
+                "type": "StatCard",
+                "props": { "label": "Weekly Study Time", "value": "32.5 hrs", "change": "+4.2 hrs vs last week", "changeType": "positive" },
+                "children": []
+              },
+              {
+                "id": "stat_completion",
+                "type": "StatCard",
+                "props": { "label": "Tasks Completed", "value": "18 / 24", "change": "75% completion", "changeType": "positive" },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "hdr_subjects",
+            "type": "Heading",
+            "props": { "level": 2, "text": "Subjects & Progress" },
+            "children": []
+          },
+          {
+            "id": "subjects_grid",
+            "type": "Grid",
+            "props": { "columns": 2, "gap": "16px" },
+            "children": [
+              {
+                "id": "card_sub_cs",
+                "type": "Card",
+                "props": { "title": "Distributed Systems", "subtitle": "CS 452 • Prof. V. Lamport" },
+                "children": [
+                  {
+                    "id": "prog_cs",
+                    "type": "ProgressBar",
+                    "props": { "value": 80, "label": "Syllabus Progress", "color": "var(--forge-primary)" },
+                    "children": []
+                  },
+                  {
+                    "id": "txt_cs",
+                    "type": "Text",
+                    "props": { "text": "Next topic: Raft leader election and log compaction algorithms.", "variant": "secondary", "size": "sm" },
+                    "children": []
+                  },
+                  {
+                    "id": "badge_cs",
+                    "type": "Badge",
+                    "props": { "text": "High Priority", "variant": "accent" },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "card_sub_ml",
+                "type": "Card",
+                "props": { "title": "Machine Learning & Deep Neural Nets", "subtitle": "CS 480 • Prof. Y. LeCun" },
+                "children": [
+                  {
+                    "id": "prog_ml",
+                    "type": "ProgressBar",
+                    "props": { "value": 65, "label": "Syllabus Progress", "color": "var(--forge-accent)" },
+                    "children": []
+                  },
+                  {
+                    "id": "txt_ml",
+                    "type": "Text",
+                    "props": { "text": "Next topic: Attention mechanisms and transformer backward pass.", "variant": "secondary", "size": "sm" },
+                    "children": []
+                  },
+                  {
+                    "id": "badge_ml",
+                    "type": "Badge",
+                    "props": { "text": "Active", "variant": "success" },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "card_sub_math",
+                "type": "Card",
+                "props": { "title": "Linear Algebra & Matrix Calculus", "subtitle": "MATH 302 • Prof. G. Strang" },
+                "children": [
+                  {
+                    "id": "prog_math",
+                    "type": "ProgressBar",
+                    "props": { "value": 90, "label": "Syllabus Progress", "color": "var(--forge-success)" },
+                    "children": []
+                  },
+                  {
+                    "id": "txt_math",
+                    "type": "Text",
+                    "props": { "text": "Next topic: Singular value decomposition and PCA applications.", "variant": "secondary", "size": "sm" },
+                    "children": []
+                  },
+                  {
+                    "id": "badge_math",
+                    "type": "Badge",
+                    "props": { "text": "Nearly Complete", "variant": "success" },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "card_sub_sys",
+                "type": "Card",
+                "props": { "title": "System Design & Architecture", "subtitle": "SWE 410 • Staff" },
+                "children": [
+                  {
+                    "id": "prog_sys",
+                    "type": "ProgressBar",
+                    "props": { "value": 45, "label": "Syllabus Progress", "color": "var(--forge-warning)" },
+                    "children": []
+                  },
+                  {
+                    "id": "txt_sys",
+                    "type": "Text",
+                    "props": { "text": "Next topic: Distributed cache replication and write-through policies.", "variant": "secondary", "size": "sm" },
+                    "children": []
+                  },
+                  {
+                    "id": "badge_sys",
+                    "type": "Badge",
+                    "props": { "text": "Midterm In 2 Weeks", "variant": "warning" },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hdr_tasks_section",
+            "type": "Heading",
+            "props": { "level": 2, "text": "Study Tasks & Management" },
+            "children": []
+          },
+          {
+            "id": "tasks_grid",
+            "type": "Grid",
+            "props": { "columns": 2, "gap": "16px" },
+            "children": [
+              {
+                "id": "card_task_list",
+                "type": "Card",
+                "props": { "title": "Current Task List" },
+                "children": [
+                  {
+                    "id": "list_tasks",
+                    "type": "List",
+                    "props": {
+                      "items": [
+                        { "title": "Implement Raft consensus election protocol", "status": "In Review" },
+                        { "title": "Solve 5 matrix SVD practice exercises", "status": "Completed" },
+                        { "title": "Read Attention Is All You Need (Sections 3-5)", "status": "In Progress" },
+                        { "title": "Draft distributed cache eviction design doc", "status": "Pending" }
+                      ]
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "card_add_task",
+                "type": "Card",
+                "props": { "title": "Add New Task" },
+                "children": [
+                  {
+                    "id": "txt_note",
+                    "type": "Text",
+                    "props": { "text": "Note: In this preview demo, tasks are managed in reactive session memory.", "variant": "muted", "size": "sm" },
+                    "children": []
+                  },
+                  {
+                    "id": "input_task_name",
+                    "type": "Input",
+                    "props": { "label": "Task Name", "name": "taskName", "placeholder": "e.g. Read Distributed Systems Chapter 5", "required": true },
+                    "children": []
+                  },
+                  {
+                    "id": "input_task_subject",
+                    "type": "Input",
+                    "props": { "label": "Subject", "name": "taskSubject", "placeholder": "e.g. CS 452", "required": false },
+                    "children": []
+                  },
+                  {
+                    "id": "btn_add_task",
+                    "type": "Button",
+                    "props": { "text": "Add Task", "variant": "primary", "action": "addTask" },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "chart_study_hours",
+            "type": "BarChart",
+            "props": {
+              "title": "Weekly Study Hours Distribution",
+              "data": [
+                { "label": "Mon", "value": 4 },
+                { "label": "Tue", "value": 6 },
+                { "label": "Wed", "value": 5 },
+                { "label": "Thu", "value": 7 },
+                { "label": "Fri", "value": 5 },
+                { "label": "Sat", "value": 3 },
+                { "label": "Sun", "value": 2.5 }
+              ]
+            },
+            "children": []
+          }
+        ]
+      }
+    }
+  ],
+  "state": [
+    { "key": "activeSubject", "type": "string", "initialValue": "Distributed Systems" }
+  ],
+  "actions": [
+    { "name": "addTask", "type": "submit_form", "description": "Add new study task to list" }
+  ]
+}

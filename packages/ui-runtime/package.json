@@ -1,0 +1,16 @@
+{
+  "name": "@forgeos/ui-runtime",
+  "version": "1.0.0",
+  "description": "Safe declarative renderer and client runtime for ForgeOS specifications",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@forgeos/app-schema": "1.0.0",
+    "@forgeos/design-system": "1.0.0",
+    "@forgeos/ui-kit": "1.0.0"
+  }
+}

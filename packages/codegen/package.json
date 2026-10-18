@@ -1,0 +1,14 @@
+{
+  "name": "@forgeos/codegen",
+  "version": "1.0.0",
+  "description": "Deterministic, AST-aware TypeScript and React source-code generation engine with diffing and user file preservation",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@forgeos/app-schema": "1.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@forgeos/ui-kit",
+  "version": "1.0.0",
+  "description": "Accessible, typed component registry and catalog definitions for ForgeOS",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@forgeos/app-schema": "1.0.0",
+    "@forgeos/design-system": "1.0.0",
+    "zod": "^3.23.8"
+  }
+}
