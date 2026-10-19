@@ -1,0 +1,14 @@
+{
+  "name": "@forgeos/integrations",
+  "version": "1.0.0",
+  "description": "Enterprise database, authentication, storage, and service integration framework for ForgeOS",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  }
+}

@@ -99,40 +99,47 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    textarea {
+    textarea, input[type="text"] {
       width: 100%;
-      height: 120px;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text);
-      padding: 12px;
+      padding: 10px 12px;
       font-family: inherit;
       font-size: 14px;
-      resize: vertical;
       line-height: 1.4;
     }
-    textarea:focus {
+    textarea { height: 110px; resize: vertical; }
+    textarea:focus, input[type="text"]:focus {
       outline: none;
       border-color: var(--border-focus);
     }
-    .btn-generate {
+    .btn-action {
       background: var(--primary);
       color: white;
       border: none;
       border-radius: var(--radius);
-      padding: 12px;
-      font-size: 14px;
+      padding: 10px 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.15s ease;
-      display: flex;
+      display: inline-flex;
       justify-content: center;
       align-items: center;
       gap: 8px;
     }
-    .btn-generate:hover { background: var(--primary-hover); }
-    .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-action:hover { background: var(--primary-hover); }
+    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-success { background: var(--success); }
+    .btn-warning { background: var(--warning); color: #000; }
 
     .example-chips {
       display: flex;
@@ -169,6 +176,7 @@
       border-bottom: 1px solid var(--border);
       padding: 0 16px;
       gap: 8px;
+      overflow-x: auto;
     }
     .tab-btn {
       background: transparent;
@@ -180,6 +188,7 @@
       cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
     }
     .tab-btn.active {
       color: var(--primary);
@@ -201,10 +210,12 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
-      padding: 6px 12px;
+      padding: 8px 12px;
       background: var(--surface);
       border-radius: var(--radius);
       border: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .viewport-controls {
       display: flex;
@@ -242,7 +253,7 @@
       transition: width 0.3s ease;
     }
 
-    /* Requirements & Plan view */
+    /* Cards & Boxes */
     .card-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -272,9 +283,9 @@
       font-weight: 600;
       text-transform: uppercase;
     }
-    .badge-completed { background: rgba(34, 197, 94, 0.2); color: var(--success); }
-    .badge-in_progress { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-    .badge-pending { background: rgba(156, 163, 175, 0.2); color: var(--text-muted); }
+    .badge-completed, .badge-active { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+    .badge-in_progress, .badge-pending { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+    .badge-failed { background: rgba(239, 68, 68, 0.2); color: var(--error); }
 
     /* Code View */
     .code-editor {
@@ -307,6 +318,24 @@
     .log-entry { margin-bottom: 4px; }
     .log-warn { color: #facc15; }
     .log-error { color: #f87171; }
+
+    /* Table styling for findings & builds */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    th {
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -317,17 +346,17 @@
       <div id="providerStatus" class="provider-pill">AI Provider: Mock (Deterministic)</div>
     </div>
     <div style="font-size: 13px; color: var(--text-muted);">
-      Phases 1, 2, 3 Active • Ready for Phase 4
+      Phases 1–8 Production Ready • Enterprise Multi-Phase Platform
     </div>
   </header>
 
   <div class="studio-layout">
     <!-- Left: Request & Configuration -->
     <div class="control-panel">
-      <div class="panel-section-title">Natural Language Intent</div>
+      <div class="panel-section-title">Application Builder Intent</div>
       <textarea id="promptInput" placeholder="Enter application requirements...">Create a responsive study dashboard with subject cards, progress indicators, a task list and a form to add tasks. Include light and dark themes.</textarea>
 
-      <button id="btnGenerate" class="btn-generate" onclick="startGeneration()">
+      <button id="btnGenerate" class="btn-action" onclick="startGeneration()">
         <span>⚡ Generate Application</span>
       </button>
 
@@ -335,7 +364,7 @@
       <div class="example-chips">
         <span class="chip" onclick="setPrompt('studyos')">StudyOS Dashboard</span>
         <span class="chip" onclick="setPrompt('crm')">CRM Lead Manager</span>
-        <span class="chip" onclick="setPrompt('tasks')">Kanban Task Tracker</span>
+        <span class="chip" onclick="setPrompt('tasks')">Task Tracker</span>
       </div>
 
       <div class="panel-section-title">Workflow Progress</div>
@@ -343,9 +372,15 @@
         Ready for input
       </div>
 
-      <div class="panel-section-title">Active Specification</div>
+      <div class="panel-section-title">Active Project</div>
       <div id="specMetaBox" style="font-size: 12px; color: var(--text-muted); line-height: 1.5;">
-        No active project generated yet.
+        No active project loaded.
+      </div>
+
+      <div class="panel-section-title">Project Management</div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-action btn-secondary" style="flex: 1;" onclick="renameCurrentProject()">Rename</button>
+        <button class="btn-action btn-secondary" style="flex: 1;" onclick="archiveCurrentProject()">Archive</button>
       </div>
     </div>
 
@@ -354,11 +389,13 @@
       <div class="tab-bar">
         <button class="tab-btn active" onclick="switchTab('preview')">Live Preview</button>
         <button class="tab-btn" onclick="switchTab('requirements')">Requirements & Plan</button>
-        <button class="tab-btn" onclick="switchTab('code')">Generated Code</button>
+        <button class="tab-btn" onclick="switchTab('code')">Source Explorer</button>
+        <button class="tab-btn" onclick="switchTab('investigations')">REA Reverse-Engineering</button>
+        <button class="tab-btn" onclick="switchTab('builds')">Build & Release</button>
         <button class="tab-btn" onclick="switchTab('logs')">Execution Logs</button>
       </div>
 
-      <!-- Tab 1: Live Preview -->
+      <!-- Tab 1: Live Preview (Phase 5.4) -->
       <div id="tab-preview" class="tab-content active">
         <div class="preview-toolbar">
           <div class="viewport-controls">
@@ -367,7 +404,7 @@
             <button class="viewport-btn" onclick="setViewport('375px')">Mobile (375px)</button>
           </div>
           <div style="display: flex; gap: 8px;">
-            <button class="viewport-btn" onclick="togglePreviewTheme()">Toggle Theme (Light/Dark)</button>
+            <button class="viewport-btn" onclick="togglePreviewTheme()">Toggle Theme</button>
             <button class="viewport-btn" onclick="reloadPreview()">Refresh Preview</button>
           </div>
         </div>
@@ -376,12 +413,12 @@
         </div>
       </div>
 
-      <!-- Tab 2: Requirements & Plan -->
+      <!-- Tab 2: Requirements & Plan (Phase 3 & 5.2) -->
       <div id="tab-requirements" class="tab-content">
         <div class="card-box">
           <h3>Structured Requirements Analysis</h3>
           <div id="requirementsContent" style="font-size: 13px; line-height: 1.6; color: var(--text-muted);">
-            Run generation to view analyzed user requirements, routes, entities, and constraints.
+            Generate an application to view requirements breakdown.
           </div>
         </div>
         <div class="card-box">
@@ -392,17 +429,77 @@
         </div>
       </div>
 
-      <!-- Tab 3: Generated Code -->
+      <!-- Tab 3: Source Explorer (Phase 5.3) -->
       <div id="tab-code" class="tab-content">
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center;">
           <select id="fileSelector" onchange="selectFile(this.value)" style="background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 6px 12px; border-radius: 6px; font-size: 13px;">
             <option value="">(No files generated)</option>
           </select>
+          <span id="fileBadge" style="font-size: 12px; color: var(--text-muted);"></span>
         </div>
-        <pre id="codeView" class="code-editor">// Source files will appear here after generation</pre>
+        <pre id="codeView" class="code-editor">// Source files will appear here</pre>
       </div>
 
-      <!-- Tab 4: Logs & Diagnostics -->
+      <!-- Tab 4: REA Reverse-Engineering Workspace (Phase 4) -->
+      <div id="tab-investigations" class="tab-content">
+        <div class="card-box">
+          <h3>Create Software Investigation</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <input type="text" id="reaTargetPath" placeholder="Enter bundle URL, path or repository..." value="https://example.com/studyos-bundle.js" />
+            <select id="reaTargetType" style="background: var(--bg); color: var(--text); border: 1px solid var(--border); padding: 8px; border-radius: var(--radius); font-size: 13px;">
+              <option value="javascript_bundle">JavaScript Bundle (Webpack / Vite)</option>
+              <option value="web_application">Web Application (Static Assets & DOM)</option>
+              <option value="electron_app">Electron Desktop Application</option>
+              <option value="android_apk">Android APK / Hybrid Mobile</option>
+            </select>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-muted);">
+              <input type="checkbox" id="reaAuthCheck" checked />
+              I certify that I am authorized to inspect this software under applicable licenses and security policies.
+            </label>
+            <button class="btn-action" style="align-self: flex-start;" onclick="startInvestigation()">🔍 Run REA Investigation</button>
+          </div>
+        </div>
+
+        <div class="card-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Findings Dossier</h3>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-action btn-secondary" onclick="exportInvestigationReport('markdown')">Export Report</button>
+              <button class="btn-action btn-success" onclick="convertInvestigationToProject()">Convert to Project</button>
+            </div>
+          </div>
+          <div id="findingsContainer" style="margin-top: 12px;">
+            <p style="color: var(--text-muted); font-size: 13px;">No investigation loaded yet.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Build & Release Pipeline (Phase 7) -->
+      <div id="tab-builds" class="tab-content">
+        <div class="card-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Project Build Pipeline</h3>
+            <button class="btn-action" onclick="triggerBuild()">🔨 Run Verified Build</button>
+          </div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+            Executes schema validation, static syntax analysis, component smoke tests, and emits immutable content-hashed artifacts.
+          </p>
+          <div id="buildResultBox" style="margin-top: 12px;"></div>
+        </div>
+
+        <div class="card-box">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>Deployment & Rollback</h3>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-action btn-secondary" onclick="deployProject('preview')">Deploy to Preview</button>
+              <button class="btn-action btn-warning" onclick="deployProject('production')">Deploy to Production</button>
+            </div>
+          </div>
+          <div id="deploymentResultBox" style="margin-top: 12px;"></div>
+        </div>
+      </div>
+
+      <!-- Tab 6: Logs & Diagnostics -->
       <div id="tab-logs" class="tab-content">
         <div id="logStream" class="log-stream">
           <div class="log-entry">[ForgeOS] Studio runtime initialized. Ready for application request.</div>
@@ -413,6 +510,7 @@
 
   <script>
     let activeProject = null;
+    let activeInvestigation = null;
     let generatedFiles = [];
     let currentPreviewTheme = 'light';
 
@@ -470,25 +568,17 @@
         });
 
         const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || 'Generation failed');
-        }
+        if (!res.ok) throw new Error(data.error || 'Generation failed');
 
         activeProject = data.project;
         generatedFiles = activeProject.files || [];
 
-        // Update Logs
         for (const log of (data.logs || [])) {
           addLog(log.message, log.level);
         }
 
-        // Render Preview
         renderPreview();
-
-        // Populate Requirements & Plan
         populateRequirementsAndPlan();
-
-        // Populate Code Files
         populateFilesList();
 
         statusBadge.textContent = 'Completed (Verified Preview Ready)';
@@ -496,6 +586,7 @@
 
         document.getElementById('specMetaBox').innerHTML = `
           <strong>${activeProject.title}</strong><br/>
+          ID: ${activeProject.id}<br/>
           Version: ${activeProject.spec.schemaVersion} • Routes: ${activeProject.spec.routes.length}<br/>
           Repair Attempts: ${activeProject.repairAttempts || 0}
         `;
@@ -537,7 +628,6 @@
           <ul style="padding-left: 20px; margin-top: 4px;">
             ${req.coreFeatures.map(f => `<li>${f}</li>`).join('')}
           </ul>
-          <p style="margin-top: 8px;"><strong>UI Components:</strong> ${req.uiComponents.join(', ')}</p>
         `;
       }
 
@@ -571,9 +661,175 @@
     function selectFile(filePath) {
       const file = generatedFiles.find(f => f.filePath === filePath);
       const codeView = document.getElementById('codeView');
+      const badge = document.getElementById('fileBadge');
       if (file) {
         codeView.textContent = file.content;
+        badge.textContent = `SHA-256: ${file.hash.slice(0, 12)}...`;
       }
+    }
+
+    // Phase 4: Investigation Workspace
+    async function startInvestigation() {
+      const targetPath = document.getElementById('reaTargetPath').value.trim();
+      const targetType = document.getElementById('reaTargetType').value;
+      const auth = document.getElementById('reaAuthCheck').checked;
+
+      if (!auth) return alert('Authorization confirmation is required to proceed.');
+
+      addLog(`Initiating REA investigation on "${targetPath}"...`);
+      try {
+        const res = await fetch('/api/investigations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ targetPath, targetType, authorizationConfirmed: auth }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        activeInvestigation = data.investigation;
+        renderFindings();
+        addLog(`Investigation ${activeInvestigation.investigationId} completed with ${activeInvestigation.findings.length} findings.`);
+      } catch (err) {
+        alert('Investigation failed: ' + err.message);
+        addLog(`Investigation error: ${err.message}`, 'error');
+      }
+    }
+
+    function renderFindings() {
+      if (!activeInvestigation) return;
+      const container = document.getElementById('findingsContainer');
+      const rows = activeInvestigation.findings.map(f => `
+        <tr>
+          <td><strong>${f.title}</strong><br/><small style="color: var(--text-muted);">${f.description}</small></td>
+          <td><code>${f.category}</code></td>
+          <td>${Math.round(f.confidence * 100)}% (${f.isHypothesis ? 'Hypothesis' : 'Observed'})</td>
+          <td><span class="badge-status ${f.approved ? 'badge-completed' : 'badge-pending'}">${f.approved ? 'Approved' : 'Pending'}</span></td>
+          <td>
+            <button class="btn-action btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="toggleFinding('${f.id}', ${!f.approved})">${f.approved ? 'Reject' : 'Approve'}</button>
+          </td>
+        </tr>
+      `).join('');
+
+      container.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Finding</th><th>Category</th><th>Confidence</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    async function toggleFinding(findingId, approve) {
+      const action = approve ? 'approve' : 'reject';
+      await fetch(`/api/investigations/${activeInvestigation.investigationId}/findings/${findingId}/${action}`, { method: 'POST' });
+      const f = activeInvestigation.findings.find(item => item.id === findingId);
+      if (f) f.approved = approve;
+      renderFindings();
+    }
+
+    async function convertInvestigationToProject() {
+      if (!activeInvestigation) return;
+      try {
+        const res = await fetch(`/api/investigations/${activeInvestigation.investigationId}/convert-to-project`, { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        activeProject = data.project;
+        generatedFiles = activeProject.files || [];
+        renderPreview();
+        populateFilesList();
+        switchTab('preview');
+        alert(`Successfully converted investigation into project "${activeProject.title}"!`);
+      } catch (err) {
+        alert('Conversion failed: ' + err.message);
+      }
+    }
+
+    async function exportInvestigationReport(format) {
+      if (!activeInvestigation) return;
+      window.open(`/api/investigations/${activeInvestigation.investigationId}/export?format=${format}`, '_blank');
+    }
+
+    // Phase 7: Build & Deployment Controls
+    async function triggerBuild() {
+      if (!activeProject) return alert('No active project to build.');
+      addLog(`Initiating verified build for project ${activeProject.id}...`);
+      try {
+        const res = await fetch(`/api/projects/${activeProject.id}/build`, { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        const b = data.build;
+        document.getElementById('buildResultBox').innerHTML = `
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 6px; font-size: 13px;">
+            <strong>Build Status:</strong> <span class="badge-status badge-${b.status}">${b.status}</span><br/>
+            <strong>Build ID:</strong> <code>${b.buildId}</code><br/>
+            <strong>Checksum:</strong> <code>${b.sourceChecksum.slice(0, 16)}...</code><br/>
+            <strong>Tests Passed:</strong> ${b.testResults.passed} / ${b.testResults.total} checks (${b.testResults.checks.join(', ')})<br/>
+            <strong>Artifacts:</strong> ${b.artifacts.length} bundled files in <code>dist/</code>
+          </div>
+        `;
+        addLog(`Build ${b.buildId} verified and recorded successfully.`);
+      } catch (err) {
+        alert('Build failed: ' + err.message);
+        addLog(`Build failed: ${err.message}`, 'error');
+      }
+    }
+
+    async function deployProject(environment) {
+      if (!activeProject) return alert('No active project loaded.');
+      const approval = environment === 'production'
+        ? confirm('Production Deployment: Please confirm that you approve releasing this verified build to production.')
+        : true;
+
+      if (!approval) return;
+
+      try {
+        const res = await fetch(`/api/projects/${activeProject.id}/deploy`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider: 'local_preview',
+            environment,
+            userApprovalConfirmed: approval,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        const d = data.deployment;
+        document.getElementById('deploymentResultBox').innerHTML = `
+          <div style="background: var(--surface-subtle); padding: 12px; border-radius: 6px; font-size: 13px;">
+            <strong>Deployment ID:</strong> <code>${d.deploymentId}</code><br/>
+            <strong>Target:</strong> ${d.targetEnvironment} (${d.provider})<br/>
+            <strong>Status:</strong> <span class="badge-status badge-active">${d.status}</span><br/>
+            <strong>URL:</strong> <a href="${d.url}" target="_blank" style="color: var(--primary);">${d.url}</a>
+          </div>
+        `;
+        addLog(`Deployment ${d.deploymentId} active at ${d.url}`);
+      } catch (err) {
+        alert('Deployment failed: ' + err.message);
+      }
+    }
+
+    async function renameCurrentProject() {
+      if (!activeProject) return alert('No active project.');
+      const newTitle = prompt('Enter new project title:', activeProject.title);
+      if (!newTitle) return;
+      await fetch(`/api/projects/${activeProject.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newTitle }),
+      });
+      activeProject.title = newTitle;
+      document.getElementById('specMetaBox').querySelector('strong').textContent = newTitle;
+    }
+
+    async function archiveCurrentProject() {
+      if (!activeProject) return alert('No active project.');
+      if (!confirm(`Archive project "${activeProject.title}"?`)) return;
+      await fetch(`/api/projects/${activeProject.id}/archive`, { method: 'POST' });
+      alert(`Project "${activeProject.title}" archived.`);
     }
   </script>
 </body>

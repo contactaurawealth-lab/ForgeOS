@@ -41,15 +41,21 @@
   - Generates unified diffs before writing changes.
   - Tracks file checksums to preserve user-authored modifications and prevent overwriting manual customizations.
 
-## 7. Storage & Persistence Strategy
-- **Phase 1–3 (Local & Development)**:
-  - Filesystem-backed storage (`.forgeos/projects/<id>/spec.json`).
-  - In-memory event bus for orchestration state and plan execution.
-- **Phase 6 (Production Backend)**:
-  - PostgreSQL / Supabase for relational project metadata, user authentication, and multi-tenant persistence.
-  - S3-compatible object storage for project builds and asset bundles.
+## 7. Storage, Auth & Integrations Strategy
+- **`@forgeos/integrations`**:
+  - `StructuredDatabase`: Transactional ACID filesystem-backed JSON store with atomic writes, collection indexing, and safe querying without requiring external database processes.
+  - `AuthService`: Session management with RBAC permission levels (`owner`, `developer`, `viewer`).
+  - `SecretManager`: Cryptographic key-value store using authenticated AES-256-GCM encryption with safe secret display masking (`****...`).
+  - `AuditLogger`: Tamper-evident structured audit trail capturing security-critical lifecycle operations.
 
-## 8. Build Isolation & Security
-- **Workspace Sandboxing**: All tool operations are restricted to `FORGEOS_WORKSPACE_ROOT`. Directory traversal attacks (`../`) are actively rejected.
-- **Process Isolation**: External tools and compilers execute in child processes with strict timeouts and resource limits.
-- **Secret Redaction**: Logging pipelines automatically sanitize tokens, keys, and authorization headers.
+## 8. Build, Release & Reverse-Engineering Architecture
+- **`@forgeos/rea-adapter`**:
+  - Strict SSRF protection denying loopback, private IPv4/IPv6, and cloud metadata access.
+  - Automatic credential redaction for static/runtime evidence.
+  - Provenance-aware feature dossiers mapping findings to `AppSpecification`.
+- **`@forgeos/build-runner`**:
+  - Multi-stage verification pipeline (static analysis, schema compliance, component validation, runtime smoke checks).
+  - SHA-256 deterministic source and artifact checksum hashing.
+  - Deployment gatekeepers requiring human approval for production.
+  - Instant verified rollback mechanism.
+

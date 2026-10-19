@@ -1,0 +1,17 @@
+{
+  "name": "@forgeos/build-runner",
+  "version": "1.0.0",
+  "description": "Secure build runner, test pipeline, and verified deployment adapters for ForgeOS",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@forgeos/app-schema": "1.0.0",
+    "@forgeos/codegen": "1.0.0",
+    "@forgeos/ui-runtime": "1.0.0",
+    "zod": "^3.23.8"
+  }
+}

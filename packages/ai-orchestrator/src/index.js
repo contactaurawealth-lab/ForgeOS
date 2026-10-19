@@ -315,7 +315,7 @@ export class AIOrchestrator {
     }
 
     // Otherwise apply safe structural fallbacks
-    const fallbackSpec = { ...spec };
+    const fallbackSpec = JSON.parse(JSON.stringify(spec));
     fallbackSpec.schemaVersion = '1.0.0';
     if (!fallbackSpec.routes || fallbackSpec.routes.length === 0) {
       fallbackSpec.routes = [
@@ -339,6 +339,22 @@ export class AIOrchestrator {
           },
         },
       ];
+    } else {
+      const sanitizeNode = (node) => {
+        if (!node) return;
+        if (errors.some(err => err.includes(node.type))) {
+          node.type = 'Container';
+          node.props = { padding: '16px' };
+        }
+        if (node.children && Array.isArray(node.children)) {
+          node.children.forEach(sanitizeNode);
+        }
+      };
+      fallbackSpec.routes.forEach(route => {
+        if (route.rootComponent) {
+          sanitizeNode(route.rootComponent);
+        }
+      });
     }
     return fallbackSpec;
   }

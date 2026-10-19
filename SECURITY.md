@@ -43,5 +43,34 @@
 
 ## 6. Audit Logging & Reporting
 
-- Significant security-sensitive events (project creation, code generation, file writes, plan approval, self-repair attempts) produce structured JSON audit records.
-- Vulnerability reports should be submitted to the security maintainers.
+- Significant security-sensitive events (project creation, code generation, file writes, plan approval, self-repair attempts, builds, deployments, rollbacks) produce structured JSON audit records.
+- Audit records include timestamp, actor, action, target entity, status, and client IP.
+
+---
+
+## 7. SSRF Protection & Reverse-Engineering Boundaries (Phase 4)
+
+- **Target URL Validation**: The REA adapter rejects any investigation target attempting to reach loopback addresses (`127.0.0.1`, `localhost`, `::1`), link-local IPs (`169.254.0.0/16`), cloud instance metadata endpoints (`169.254.169.254`, `metadata.google.internal`), and RFC 1918 private IPv4 subnets (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
+- **Protocol Restriction**: Only public `http://` and `https://` schemes are permitted. Internal schemes (`file://`, `gopher://`, `dict://`, etc.) are rejected immediately.
+- **Evidence Sanitization**: Captured evidence undergoes automated regex redaction to strip authentication headers, API keys, and sensitive tokens prior to dossier creation.
+- **Explicit Authorization**: Any investigation requires positive confirmation from the developer that they own or are authorized to inspect the target software.
+
+---
+
+## 8. Cryptographic Secret Storage & Role-Based Access Control (Phase 6)
+
+- **Authenticated Encryption**: The `SecretManager` protects credentials using AES-256-GCM authenticated encryption with unique initialization vectors (IVs) and authentication tags.
+- **Display Masking**: Secrets retrieved for display or logging are masked to prevent inadvertent exposure in terminal or web logs.
+- **Role-Based Access Control (RBAC)**: Enforces three distinct permission tiers:
+  - `owner`: Full privileges, including production deployment and secret modification.
+  - `developer`: Allowed to create projects, run investigations, and execute builds.
+  - `viewer`: Read-only access to projects and live previews.
+
+---
+
+## 9. Deployment Gates & Rollback Verification (Phase 7)
+
+- **Approval Gate**: Production deployments strictly require explicit human approval; automated or unapproved releases are blocked.
+- **Tamper-Evident Hashing**: Builds compute SHA-256 hashes of all source code files and emitted bundles (`forgeos-manifest.json` and build records).
+- **Rollback Verification**: Rollbacks atomically restore previously verified build records, preventing partial states or rollout of defective builds.
+

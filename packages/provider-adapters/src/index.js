@@ -319,6 +319,32 @@ export class MockProvider {
 
     // 4. Bounded repair scenario
     if (lower.includes('repair') || lower.includes('patch') || lower.includes('fix')) {
+      if (lower.includes('specification') || lower.includes('attempt #') || systemPrompt?.includes('Repair Agent')) {
+        return {
+          schemaVersion: '1.0.0',
+          metadata: { id: 'repaired-app', name: 'repaired-app', title: 'Repaired Application' },
+          routes: [
+            {
+              id: 'r_repaired',
+              path: '/',
+              title: 'Repaired Route',
+              rootComponent: {
+                id: 'c_container_rep',
+                type: 'Container',
+                props: { padding: '24px' },
+                children: [
+                  {
+                    id: 'h_repaired',
+                    type: 'Heading',
+                    props: { level: 1, text: 'Repaired Application' },
+                    children: [],
+                  },
+                ],
+              },
+            },
+          ],
+        };
+      }
       return {
         repairAttempted: true,
         patchedFields: ['props', 'children'],
