@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "forgeos-platform",
+  "version": "1.0.0",
+  "description": "Agent skill for building, inspecting, testing, and deploying AI-native applications on ForgeOS",
+  "compatibleForgeOSVersions": "^1.0.0 || ^0.1.0",
+  "referenceDocumentVersion": "1.0.0",
+  "capabilities": {
+    "foundation": "AVAILABLE",
+    "appSchema": "AVAILABLE",
+    "designSystem": "AVAILABLE",
+    "uiKit": "AVAILABLE",
+    "uiRuntime": "AVAILABLE",
+    "codeGeneration": "AVAILABLE",
+    "aiOrchestration": "AVAILABLE",
+    "boundedSelfRepair": "AVAILABLE",
+    "reverseEngineeringAdapter": "AVAILABLE",
+    "reaNativeToolchain": "PARTIAL",
+    "studioAndPreview": "AVAILABLE",
+    "structuredDatabase": "AVAILABLE",
+    "rbacAuth": "AVAILABLE",
+    "secretManager": "AVAILABLE",
+    "auditLogging": "AVAILABLE",
+    "buildRunner": "AVAILABLE",
+    "localPreviewDeploy": "AVAILABLE",
+    "cloudDeployAdapters": "AVAILABLE_WITH_CONFIGURATION",
+    "verifiedRollback": "AVAILABLE",
+    "wysiwygVisualCanvas": "PLANNED",
+    "dynamicStringEval": "UNSUPPORTED"
+  },
+  "requiredConfiguration": [
+    "PORT (default: 3000)",
+    "FORGEOS_WORKSPACE_ROOT (default: ./projects)"
+  ],
+  "optionalConfiguration": [
+    "AI_PROVIDER (mock | openai, default: mock)",
+    "OPENAI_API_KEY (required if AI_PROVIDER=openai)",
+    "FORGEOS_SECRET_KEY (hex 32-byte key for AES-256-GCM, auto-generated if unset)",
+    "FORGEOS_MAX_REPAIR_ATTEMPTS (default: 3)"
+  ],
+  "releaseNotes": "1.0.0: Initial unified agent enablement package covering all 8 phases of ForgeOS."
+}

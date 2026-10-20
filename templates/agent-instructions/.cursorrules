@@ -1,0 +1,9 @@
+# Cursor Rules for ForgeOS
+
+- You are an expert engineer working on ForgeOS, an AI-native application development platform.
+- When generating or editing ForgeOS applications, always adhere strictly to `@forgeos/app-schema` version `1.0.0`.
+- Only use components registered in `@forgeos/ui-kit`: Container, Heading, Text, Grid, Card, StatCard, Button, Input, ProgressBar, Badge, List, BarChart.
+- Never write code that uses `eval()`, `new Function()`, or unescaped `innerHTML`.
+- For reverse-engineering tasks, use `@forgeos/rea-adapter` and ensure SSRF checks and user approval are respected.
+- For full architecture and reference material, consult `skills/forgeos-platform/SKILL.md`.
+- Run `npm test` after any code modification.

@@ -1,9 +1,12 @@
 {
   "name": "forgeos-monorepo",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "ForgeOS - AI-Native Application Engineering Platform",
   "type": "module",
+  "bin": {
+    "forgeos": "./bin/forgeos.js"
+  },
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -16,6 +19,9 @@
     "test:codegen": "node --test packages/codegen/tests/**/*.test.js",
     "test:orchestrator": "node --test packages/ai-orchestrator/tests/**/*.test.js",
     "test:e2e": "node tests/e2e/studyos-demo.test.js",
+    "test:agent": "node --test tests/agent-acceptance/agent-acceptance.test.js",
+    "skill:install": "node scripts/install-skill.js",
+    "validate:docs": "node scripts/validate-docs.js",
     "typecheck": "tsc --build --dry || echo 'Typecheck configuration ready'",
     "clean": "rm -rf node_modules packages/*/node_modules apps/*/node_modules"
   },

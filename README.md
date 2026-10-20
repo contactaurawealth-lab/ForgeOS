@@ -40,7 +40,8 @@ Unlike naive LLM code-generation chatbots that spit out unverified code snippets
 | **Reverse-Engineering Integration (Phase 4)** | ✅ **Implemented** | Typed adapter for `morluto/rea`, SSRF protection, credential redaction, findings dossier approval, and spec generation. |
 | **Production Backend & Database (Phase 6)** | ✅ **Implemented** | Transactional ACID JSON storage, RBAC session auth (`owner`, `developer`, `viewer`), AES-256-GCM secrets, audit logs. |
 | **Secure Container Builds & CI/CD (Phase 7)**| ✅ **Implemented** | Multi-stage build runner, SHA-256 checksums, local preview deployment, provider validation, and verified rollback. |
-| **Hardening & Verification (Phase 8)** | ✅ **Implemented** | 59/59 passing tests, 15-step end-to-end acceptance scenario, agent operating package (`SKILL.md`). |
+| **Hardening & Verification (Phase 8)** | ✅ **Implemented** | 66/66 passing tests across 21 suites, 15-step platform scenario, agent acceptance suite (Tests A–F). |
+| **Agent Skill & Reference Library** | ✅ **Implemented** | Canonical `skills/forgeos-platform/SKILL.md`, 15 reference guides, CLI, installer, and validator. |
 
 ---
 
@@ -104,16 +105,27 @@ See [ENVIRONMENT.md](file:///root/forgeos/ENVIRONMENT.md) for full configuration
 
 ---
 
-## 6. Local Development Instructions
+## 6. Local Development & CLI Instructions
 
-Start the ForgeOS API server and Studio:
+### Start API & Studio Server
 ```bash
 npm run dev
+# or: ./bin/forgeos.js dev
 ```
 
 Visit the local Studio interface in your browser:
 ```
 http://localhost:3000
+```
+
+### ForgeOS CLI Usage
+The CLI is accessible via `./bin/forgeos.js`:
+```bash
+./bin/forgeos.js --help
+./bin/forgeos.js build studyos-demo
+./bin/forgeos.js rea inspect https://example.com/app.js
+./bin/forgeos.js skill install --agent claude
+./bin/forgeos.js validate:docs
 ```
 
 ---
@@ -125,24 +137,32 @@ Run all unit, integration, and end-to-end tests across the monorepo:
 npm test
 ```
 
-Run type-checking across all packages:
+Run the real-world Agent Acceptance Suite (Tests A through F):
 ```bash
-npm run typecheck
+npm run test:agent
 ```
 
-Run schema validation tests:
+Validate documentation, links, and schemas:
 ```bash
-npm run test:schema
-```
-
-Run the end-to-end StudyOS demo generation test:
-```bash
-npm run test:e2e
+npm run validate:docs
 ```
 
 Run the comprehensive 15-step Phase 8 acceptance scenario:
 ```bash
 node --test tests/e2e/full-acceptance-scenario.test.js
+```
+
+---
+
+## 8. Agent Skill Installation
+
+Install the ForgeOS agent skill into your coding agent environment:
+```bash
+# Automated installer (detects Open Agent Skills, Claude Code, Cursor, Codex)
+npm run skill:install
+
+# Dry-run preview
+node scripts/install-skill.js --dry-run
 ```
 
 ---

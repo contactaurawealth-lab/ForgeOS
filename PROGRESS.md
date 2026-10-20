@@ -1,8 +1,8 @@
 # ForgeOS Execution Progress Tracker
 
-**Current Phase:** All Phases (Phases 1 through 8) COMPLETED • Platform Release-Ready  
-**Overall Status:** Green (59/59 tests passing across 20 suites)  
-**Last Updated:** October 19, 2026  
+**Current Phase:** Platform Release-Ready & Full Agent Enablement System Verified  
+**Overall Status:** Green (66/66 tests passing across 21 suites)  
+**Last Updated:** October 20, 2026  
 
 ---
 
@@ -82,18 +82,26 @@
   - `CloudflarePagesDeploymentAdapter` & `VercelDeploymentAdapter`: Validates actual credentials and project settings without inventing simulated successful deployment URLs.
   - Rollback Engine: Verifies prior build records and executes atomic rollbacks to known-good versions.
 
-### Phase 8: Verification & Acceptance
+### Phase 8: Verification, Hardening & Agent Enablement System
 - [x] Platform Hardening: Path-traversal sanitization, safe HTML escaping, zero `eval`, Error Boundary containment, and strict input validation.
-- [x] Agent Customization Package: Root `SKILL.md` defining platform operating guidelines, tool manifests, and agent orchestration patterns.
 - [x] Full Acceptance Scenario: `tests/e2e/full-acceptance-scenario.test.js` covering all 15 acceptance criteria in Phase 8.7.
+- [x] Canonical Agent Skill: `skills/forgeos-platform/SKILL.md` conforming to Open Agent Skills specification with valid YAML frontmatter.
+- [x] Comprehensive Reference Library: 15 modular markdown documents in `skills/forgeos-platform/references/` covering every architectural layer + `assets/example-configs/`.
+- [x] Persistent Agent Templates: `templates/agent-instructions/` (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `CODEX.md`).
+- [x] Integration Documentation: `docs/agent-integration/` (`SUPPORTED_AGENTS.md`, `INSTALLATION.md`, `INTEGRATION_ARCHITECTURE.md`).
+- [x] Real Executable CLI: `bin/forgeos.js` with commands (`dev`, `test`, `build`, `rea inspect`, `skill install`, `validate:docs`).
+- [x] Automated Installer: `scripts/install-skill.js` with dry-run support, agent auto-detection, conflict safety, and lockfile recording.
+- [x] Automated Validator: `scripts/validate-docs.js` verifying frontmatter, links, component names, and schemas.
+- [x] Agent Acceptance Test Suite: `tests/agent-acceptance/agent-acceptance.test.js` covering Tests A through F (7/7 passed).
 
 ---
 
 ## 2. Test Execution & Evidence
 
-Total Tests: **59**  
-Passed: **59**  
+Total Tests: **66**  
+Passed: **66**  
 Failed: **0**  
+Suites: **21**  
 Execution Command: `npm test` (`node --test $(find packages apps tests -name '*.test.js')`)  
 
 | Test Suite | File | Tests | Result |
@@ -109,6 +117,7 @@ Execution Command: `npm test` (`node --test $(find packages apps tests -name '*.
 | **REA Adapter & Investigation (Phase 4)** | `packages/rea-adapter/tests/rea-adapter.test.js` | 10 | ✅ 10/10 Passed |
 | **UI Kit & Registry** | `packages/ui-kit/tests/ui-kit.test.js` | 4 | ✅ 4/4 Passed |
 | **UI Runtime** | `packages/ui-runtime/tests/ui-runtime.test.js` | 4 | ✅ 4/4 Passed |
+| **Agent Acceptance Suite (Tests A–F)** | `tests/agent-acceptance/agent-acceptance.test.js` | 7 | ✅ 7/7 Passed |
 | **Phase 8 Comprehensive Scenario (15 Steps)** | `tests/e2e/full-acceptance-scenario.test.js` | 1 (15 steps) | ✅ 1/1 Passed |
 | **Final Integration (StudyOS Demo E2E)** | `tests/e2e/studyos-demo.test.js` | 1 (10 steps) | ✅ 1/1 Passed |
 
@@ -124,7 +133,7 @@ Execution Command: `npm test` (`node --test $(find packages apps tests -name '*.
 2. **Start the API & Studio development server**:
    ```bash
    npm run dev
-   # or: npm start
+   # or: ./bin/forgeos.js dev
    ```
 
 3. **Access the application**:
@@ -133,18 +142,13 @@ Execution Command: `npm test` (`node --test $(find packages apps tests -name '*.
    - Components API: `http://localhost:3000/api/components`
    - Isolated Preview: `http://localhost:3000/preview/:id`
 
----
+4. **Install Agent Skills**:
+   ```bash
+   node scripts/install-skill.js
+   # or: ./bin/forgeos.js skill install
+   ```
 
-## 4. Environment Variables
-
-| Variable | Purpose | Required | Default |
-| :--- | :--- | :--- | :--- |
-| `NODE_ENV` | Runtime environment mode | No | `development` |
-| `PORT` | HTTP server port | No | `3000` |
-| `FORGEOS_WORKSPACE_ROOT` | Destination directory for generated projects | No | `./projects` |
-| `FORGEOS_LOG_LEVEL` | Log verbosity | No | `info` |
-| `AI_PROVIDER` | LLM adapter selection (`mock`, `openai`, `anthropic`, `gemini`) | No | `mock` |
-| `OPENAI_API_KEY` | OpenAI secret key | Only if `AI_PROVIDER=openai` | *None* |
-| `FORGEOS_MAX_REPAIR_ATTEMPTS` | Maximum allowed self-repair cycles | No | `3` |
-| `FORGEOS_TOOL_TIMEOUT_MS` | Tool execution timeout in milliseconds | No | `30000` |
-| `FORGEOS_SECRET_KEY` | Hex encryption key for AES-256-GCM SecretManager | No | Auto-generated 32-byte key |
+5. **Validate Documentation & Skill Integrity**:
+   ```bash
+   npm run validate:docs
+   ```

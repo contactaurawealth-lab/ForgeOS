@@ -188,6 +188,13 @@ export class ReaAdapter {
   }
 
   /**
+   * Alias for detectCapabilities
+   */
+  async discoverCapabilities() {
+    return this.detectCapabilities();
+  }
+
+  /**
    * Translates collected reverse-engineering evidence into a draft ForgeOS AppSpecification
    * @param {z.infer<typeof ReaInspectionReportSchema>} report
    * @returns {Record<string, unknown>}

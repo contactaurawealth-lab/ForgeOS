@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "id": "studyos-demo",
+    "name": "studyos-demo",
+    "title": "StudyOS — Responsive Study Dashboard",
+    "description": "A responsive study tracking dashboard with subject cards, progress indicators, task list, and task addition form.",
+    "version": "1.0.0",
+    "author": "ForgeOS Engineering Team",
+    "tags": ["study", "dashboard", "education"],
+    "createdAt": "2026-10-18T12:00:00.000Z",
+    "updatedAt": "2026-10-18T12:00:00.000Z"
+  },
+  "theme": {
+    "mode": "light",
+    "primaryColor": "#2563eb",
+    "accentColor": "#0d9488",
+    "neutralColor": "#0f172a",
+    "backgroundColor": "#ffffff",
+    "surfaceColor": "#f8fafc",
+    "borderRadius": "8px",
+    "fontFamily": "system-ui, -apple-system, sans-serif"
+  },
+  "routes": [
+    {
+      "id": "r_dash",
+      "path": "/",
+      "title": "Study Dashboard",
+      "layout": "default",
+      "rootComponent": {
+        "id": "c_container",
+        "type": "Container",
+        "props": { "maxWidth": "1200px", "padding": "24px" },
+        "children": [
+          {
+            "id": "c_heading",
+            "type": "Heading",
+            "props": { "level": 1, "text": "Study Dashboard", "subtitle": "Manage active subjects and assignments" },
+            "children": []
+          },
+          {
+            "id": "c_grid_stats",
+            "type": "Grid",
+            "props": { "columns": 3, "gap": "16px" },
+            "children": [
+              {
+                "id": "c_stat_1",
+                "type": "StatCard",
+                "props": { "label": "Active Subjects", "value": "4", "change": "+1 this semester", "changeType": "positive" },
+                "children": []
+              },
+              {
+                "id": "c_stat_2",
+                "type": "StatCard",
+                "props": { "label": "Weekly Study Hours", "value": "28.5 hrs", "change": "+3.5 hrs", "changeType": "positive" },
+                "children": []
+              },
+              {
+                "id": "c_stat_3",
+                "type": "StatCard",
+                "props": { "label": "Completed Tasks", "value": "14 / 20", "change": "70% complete", "changeType": "positive" },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "state": [
+    { "key": "tasks", "type": "array", "initialValue": [] }
+  ],
+  "actions": [
+    { "name": "addTask", "type": "submit_form", "description": "Add a new study task" }
+  ],
+  "dataSources": []
+}
